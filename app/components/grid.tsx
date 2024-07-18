@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 
 import Cell from "./cell";
+import ResetButton from "./resetbutton";
+import QueenBeePattern from "./queenpattern";
 
 const GameBoard = () => {
   const [grid, setGrid] = useState<boolean[][]>(
@@ -9,13 +11,52 @@ const GameBoard = () => {
       {length:50},
       () => Array.from(
         {length: 50}, 
-        () => Math.random() < 0.5,
+        () => false,
       ),
     )
   );
+
+  const randomGrid = () => {
+    setGrid(
+      Array.from(
+        {length:50},
+        () => Array.from(
+          {length: 50}, 
+          () => Math.random() < 0.5,
+        ),
+      )
+    );
+  };
+
+  const queenBeeGrid = (pattern: boolean[][]) => {
+    const newGrid = (
+      Array.from(
+        {length:50},
+        () => Array.from(
+          {length: 50}, 
+          () => false,
+        ),
+      )
+    );
+
+    const pRows = pattern.length;
+    const pCols = pattern[0].length;
+    const startRow = Math.floor((50 - pRows) / 2);
+    const startCol = Math.floor((50 - pCols) / 2);
+
+    for (let row = 0; row < pRows; row++) {
+      for (let col = 0; col < pCols; col++) {
+          newGrid[startRow + row][startCol + col] = pattern[row][col];
+      }
+    }
+
+    setGrid(newGrid)
+  };
   
   return (
     <div style={{ boxShadow: '3px 3px 10px rgba(0, 0, 0, 0.4)' }}>
+      <ResetButton onClick={() => queenBeeGrid(QueenBeePattern())}  name = "Queen Bee Pattern"/>
+      <ResetButton onClick={randomGrid} name = "Random Pattern"/>
       <div 
         style={{
           display: 'grid',
