@@ -1,27 +1,21 @@
 'use client';
-import React, { useState } from "react";
+import React, { forwardRef, Ref, useImperativeHandle, useRef, useState } from "react";
 
 import Cell from "./cell";
-import ResetButton from "./resetbutton";
-import QueenBeePattern from "./queenpattern";
+import createArray from "../utilities/array";
 
-const GameBoard = () => {
-  const [grid, setGrid] = useState<boolean[][]>(
-    Array.from(
-      {length:50},
-      () => Array.from(
-        {length: 50}, 
-        () => false,
-      ),
-    )
-  );
+const rows = 50;
+const cols = 50;
+
+const GameBoard = forwardRef((props, ref: Ref<any>) => {
+  const [grid, setGrid] = useState<boolean[][]>(createArray(rows, cols));
 
   const randomGrid = () => {
     setGrid(
       Array.from(
-        {length:50},
+        {length:rows},
         () => Array.from(
-          {length: 50}, 
+          {length: cols}, 
           () => Math.random() < 0.5,
         ),
       )
@@ -29,20 +23,12 @@ const GameBoard = () => {
   };
 
   const queenBeeGrid = (pattern: boolean[][]) => {
-    const newGrid = (
-      Array.from(
-        {length:50},
-        () => Array.from(
-          {length: 50}, 
-          () => false,
-        ),
-      )
-    );
+    const newGrid = createArray(rows, cols);
 
     const pRows = pattern.length;
     const pCols = pattern[0].length;
-    const startRow = Math.floor((50 - pRows) / 2);
-    const startCol = Math.floor((50 - pCols) / 2);
+    const startRow = Math.floor((rows - pRows) / 2);
+    const startCol = Math.floor((cols - pCols) / 2);
 
     for (let row = 0; row < pRows; row++) {
       for (let col = 0; col < pCols; col++) {
@@ -52,11 +38,11 @@ const GameBoard = () => {
 
     setGrid(newGrid)
   };
+
+  useImperativeHandle(ref, () => ({queenBeeGrid}));
   
   return (
     <div style={{ boxShadow: '3px 3px 10px rgba(0, 0, 0, 0.4)' }}>
-      <ResetButton onClick={() => queenBeeGrid(QueenBeePattern())}  name = "Queen Bee Pattern"/>
-      <ResetButton onClick={randomGrid} name = "Random Pattern"/>
       <div 
         style={{
           display: 'grid',
@@ -76,6 +62,6 @@ const GameBoard = () => {
       </div>
     </div>
   );
-};
+});
   
 export default GameBoard;
