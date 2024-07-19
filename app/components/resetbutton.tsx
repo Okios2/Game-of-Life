@@ -1,6 +1,8 @@
-const ResetButton = ({onClick, name}: {onClick: () => void; name: string}) =>{
+import '../css/resetButton.css';
+
+const ResetButton = ({onClick, name}: {onClick: () => void; name: string}) => {
     return (
-        <button onClick={onClick} style={{ margin: '20px', padding: '10px', fontSize: '16px' }}>{name}</button>
+        <button onClick={onClick} className="reset-button">{name}</button>
     );
 }
 
