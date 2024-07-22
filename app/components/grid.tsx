@@ -2,9 +2,8 @@
 import React, { forwardRef, Ref, useImperativeHandle, useRef, useState } from "react";
 
 import Cell from "./cell";
+import styles from "../grid.module.css";
 import createArray from "../utilities/array";
-import '../css/grid.css';
-
 
 const rows = 50;
 const cols = 50;
@@ -40,10 +39,10 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
     setGrid(newGrid)
   };
 
-  useImperativeHandle(ref, () => ({queenBeeGrid}));
+  useImperativeHandle(ref, () => ({queenBeeGrid, randomGrid}));
   
   return (
-      <div className='grid'>
+      <div className={styles.grid}>
         {grid.map((row: boolean[], rowIndex: number) => (
           row.map((cell: boolean, cellIndex: number) => (
             <Cell

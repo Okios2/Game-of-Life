@@ -1,8 +1,8 @@
-import '../css/resetButton.css';
+import styles from '../resetButton.module.css'
 
 const ResetButton = ({onClick, name}: {onClick: () => void; name: string}) => {
     return (
-        <button onClick={onClick} className="reset-button">{name}</button>
+        <button onClick={onClick} className={styles.resetbutton}>{name}</button>
     );
 }
 
