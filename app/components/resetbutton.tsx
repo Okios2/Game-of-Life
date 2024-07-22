@@ -1,4 +1,4 @@
-import styles from '../resetButton.module.css'
+import styles from './resetButton.module.css'
 
 const ResetButton = ({onClick, name}: {onClick: () => void; name: string}) => {
     return (

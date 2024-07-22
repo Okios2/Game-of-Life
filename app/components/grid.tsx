@@ -2,7 +2,7 @@
 import React, { forwardRef, Ref, useImperativeHandle, useRef, useState } from "react";
 
 import Cell from "./cell";
-import styles from "../grid.module.css";
+import styles from "./grid.module.css";
 import createArray from "../utilities/array";
 
 const rows = 50;
