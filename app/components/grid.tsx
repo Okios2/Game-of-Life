@@ -30,7 +30,6 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
   useImperativeHandle(ref, () => ({setPattern}));
 
   const setIsAlive = (newIsAlive:boolean, rowIndex: number, cellIndex: number) => {
-
     setGrid((currentGrid: boolean[][]) => {
       const newGrid = currentGrid.map((row: boolean[]) => row.slice(0));
       newGrid[rowIndex][cellIndex] = newIsAlive;
@@ -39,17 +38,17 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
   }
   
   return (
-      <div className={styles.grid}>
-        {grid.map((row: boolean[], rowIndex: number) => (
-          row.map((cell: boolean, cellIndex: number) => (
-            <Cell
-              key={`${rowIndex}-${cellIndex}`}
-              isAlive={cell}
-              setIsAlive={(newIsAlive) => setIsAlive(newIsAlive, rowIndex, cellIndex)}
-            />
-          ))
-        ))}
-      </div>
+    <div className={styles.grid}>
+      {grid.map((row: boolean[], rowIndex: number) => (
+        row.map((cell: boolean, cellIndex: number) => (
+          <Cell
+            key={`${rowIndex}-${cellIndex}`}
+            isAlive={cell}
+            setIsAlive={(newIsAlive) => setIsAlive(newIsAlive, rowIndex, cellIndex)}
+          />
+        ))
+      ))}
+    </div>
   );
 });
   
