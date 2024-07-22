@@ -2,6 +2,7 @@
 import React, { forwardRef, Ref, useImperativeHandle, useRef, useState } from "react";
 
 import Cell from "./cell";
+import styles from "../grid.module.css";
 import createArray from "../utilities/array";
 
 const rows = 50;
@@ -24,7 +25,6 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
 
   const queenBeeGrid = (pattern: boolean[][]) => {
     const newGrid = createArray(rows, cols);
-
     const pRows = pattern.length;
     const pCols = pattern[0].length;
     const startRow = Math.floor((rows - pRows) / 2);
@@ -42,15 +42,7 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
   useImperativeHandle(ref, () => ({queenBeeGrid}));
   
   return (
-    <div style={{ boxShadow: '3px 3px 10px rgba(0, 0, 0, 0.4)' }}>
-      <div 
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(50, 15px)',
-          gridTemplateRows: 'repeat(50, 15px)',
-          gap: '0.5px',
-        }}
-      >
+      <div className={styles.grid}>
         {grid.map((row: boolean[], rowIndex: number) => (
           row.map((cell: boolean, cellIndex: number) => (
             <Cell
@@ -60,7 +52,6 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
           ))
         ))}
       </div>
-    </div>
   );
 });
   
