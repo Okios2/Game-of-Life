@@ -9,6 +9,7 @@ import queenBeePattern from "../patterns/queenBee";
 import tumblerPattern from "../patterns/tumbler";
 
 const GridContainer = () => {
+
     const gridRef = useRef<{setPattern: (queenBeePattern: boolean[][]) => void}>();
     const handleQueenBee = () => gridRef.current?.setPattern(queenBeePattern);
     const handleRandomGrid  = () => gridRef.current?.setPattern(randomPattern(rows, cols));

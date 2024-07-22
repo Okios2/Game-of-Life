@@ -10,7 +10,7 @@ export const cols = 50;
 
 const GameBoard = forwardRef((props, ref: Ref<any>) => {
   const [grid, setGrid] = useState<boolean[][]>(createArray(rows, cols));
-
+  
   const setPattern = (pattern: boolean[][]) => {
     const newGrid = createArray(rows, cols);
     const pRows = pattern.length;
