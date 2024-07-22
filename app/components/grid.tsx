@@ -11,19 +11,7 @@ const cols = 50;
 const GameBoard = forwardRef((props, ref: Ref<any>) => {
   const [grid, setGrid] = useState<boolean[][]>(createArray(rows, cols));
 
-  const randomGrid = () => {
-    setGrid(
-      Array.from(
-        {length:rows},
-        () => Array.from(
-          {length: cols}, 
-          () => Math.random() < 0.5,
-        ),
-      )
-    );
-  };
-
-  const queenBeeGrid = (pattern: boolean[][]) => {
+  const setPattern = (pattern: boolean[][]) => {
     const newGrid = createArray(rows, cols);
     const pRows = pattern.length;
     const pCols = pattern[0].length;
@@ -39,7 +27,7 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
     setGrid(newGrid)
   };
 
-  useImperativeHandle(ref, () => ({queenBeeGrid, randomGrid}));
+  useImperativeHandle(ref, () => ({setPattern}));
   
   return (
       <div className={styles.grid}>
