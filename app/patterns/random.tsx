@@ -1,9 +1,4 @@
-import createArray from "../utilities/array";
-
-const rows = 50;
-const cols = 50;
-
-const randomPattern = () => {
+const randomPattern = (rows: number, cols: number) => {
     return (
         Array.from(
             {length:rows},
