@@ -1,13 +1,8 @@
+import styles from "./cell.module.css";
+
 const Cell = ({ isAlive }: { isAlive: boolean }) => {
   return (
-    <div
-      style={{
-        width: 15,
-        height: 15,
-        border: '0.5px solid black',
-        backgroundColor: isAlive ? 'red' : 'white',
-      }}
-    />
+    <div className={`${styles.cell} ${isAlive ? styles.alive : styles.dead}`} />
   );
 };
 
