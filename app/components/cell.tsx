@@ -1,8 +1,8 @@
-import '../css/cell.css';
+import styles from "./cell.module.css";
 
 const Cell = ({ isAlive }: { isAlive: boolean }) => {
   return (
-    <div className={`cell ${isAlive ? 'alive' : 'dead'}`} />
+    <div className={`${styles.cell} ${isAlive ? styles.alive : styles.dead}`} />
   );
 };
 
