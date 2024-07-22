@@ -23,7 +23,7 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
     );
   };
 
-  const patternGrid = (pattern: boolean[][]) => {
+  const setPattern = (pattern: boolean[][]) => {
     const newGrid = createArray(rows, cols);
     const pRows = pattern.length;
     const pCols = pattern[0].length;
@@ -39,7 +39,7 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
     setGrid(newGrid)
   };
 
-  useImperativeHandle(ref, () => ({patternGrid}));
+  useImperativeHandle(ref, () => ({setPattern}));
   
   return (
       <div className={styles.grid}>

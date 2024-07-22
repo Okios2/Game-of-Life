@@ -15,9 +15,9 @@ tumblerPattern[5][0] = true;
 tumblerPattern[5][1] = true;
 
 for (let i = 0; i < 6; i++) {
-    for (let j = 0; j < 3; j++) {
-        tumblerPattern[i][6 - j] = tumblerPattern[i][j];
-    }
+  for (let j = 0; j < 3; j++) {
+      tumblerPattern[i][6 - j] = tumblerPattern[i][j];
   }
+}
 
 export default tumblerPattern;

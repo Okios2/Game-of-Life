@@ -8,9 +8,9 @@ import queenBeePattern from "../patterns/queenBee";
 import tumblerPattern from "../patterns/tumbler";
 
 const GridContainer = () => {
-    const gridRef = useRef<{patternGrid: (pattern: boolean[][]) => void}>();
-    const handleQueenBee = () => gridRef.current?.patternGrid(queenBeePattern);
-    const handleTumbler = () => gridRef.current?.patternGrid(tumblerPattern);
+    const gridRef = useRef<{setPattern: (pattern: boolean[][]) => void}>();
+    const handleQueenBee = () => gridRef.current?.setPattern(queenBeePattern);
+    const handleTumbler = () => gridRef.current?.setPattern(tumblerPattern);
 
     return (
         <div>
