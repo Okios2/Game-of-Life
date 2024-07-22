@@ -1,5 +1,5 @@
 'use client';
-import React, { forwardRef, Ref, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
 
 import Cell from "./cell";
 import styles from "./grid.module.css";
@@ -28,18 +28,27 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
   };
 
   useImperativeHandle(ref, () => ({setPattern}));
+
+  const setIsAlive = (newIsAlive:boolean, rowIndex: number, cellIndex: number) => {
+    setGrid((currentGrid: boolean[][]) => {
+      const newGrid = currentGrid.map((row: boolean[]) => row.slice(0));
+      newGrid[rowIndex][cellIndex] = newIsAlive;
+      return newGrid;
+    });
+  }
   
   return (
-      <div className={styles.grid}>
-        {grid.map((row: boolean[], rowIndex: number) => (
-          row.map((cell: boolean, cellIndex: number) => (
-            <Cell
-              key={`${rowIndex}-${cellIndex}`}
-              isAlive={cell}
-            />
-          ))
-        ))}
-      </div>
+    <div className={styles.grid}>
+      {grid.map((row: boolean[], rowIndex: number) => (
+        row.map((cell: boolean, cellIndex: number) => (
+          <Cell
+            key={`${rowIndex}-${cellIndex}`}
+            isAlive={cell}
+            setIsAlive={(newIsAlive) => setIsAlive(newIsAlive, rowIndex, cellIndex)}
+          />
+        ))
+      ))}
+    </div>
   );
 });
   
