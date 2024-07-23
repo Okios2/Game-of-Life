@@ -38,7 +38,12 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
   }
   
   return (
-    <div className={styles.grid}>
+    <div className={styles.grid} 
+    style={{
+      gridTemplateColumns: `repeat(${cols}, 15px)`,
+      gridTemplateRows: `repeat(${rows}, 15px)`,
+    }}
+    >
       {grid.map((row: boolean[], rowIndex: number) => (
         row.map((cell: boolean, cellIndex: number) => (
           <Cell
