@@ -4,6 +4,7 @@ import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
 import Cell from "./cell";
 import styles from "./grid.module.css";
 import createArray from "../utilities/array";
+import countAliveNeighbors from "../utilities/countAliveNeighbors";
 
 export const rows = 50;
 export const cols = 50;
@@ -20,46 +21,26 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
 
     for (let row = 0; row < pRows; row++) {
       for (let col = 0; col < pCols; col++) {
-          newGrid[startRow + row][startCol + col] = pattern[row][col];
+        newGrid[startRow + row][startCol + col] = pattern[row][col];
       }
     }
 
     setGrid(newGrid)
   };
 
-  const countAliveNeighbors = (grid: boolean[][], x: number, y: number) => {
-    let sum = 0;
-    for (let localRow = -1; localRow < 2; localRow++){
-      for (let localCol = -1; localCol < 2; localCol++) {    
-        if (localRow === 0 && localCol === 0) continue;
-        //Periodic boundary conditions
-        let row = (x + localRow + rows) % rows;
-        let col = (y + localCol + cols) % cols;
-        if(grid[row][col]) sum++;
-      }
-    }
-
-    return sum;
-  };
-
   const nextGrid = () => {
     setGrid((currentGrid: boolean[][]) => {
-      const newGrid = currentGrid.map((row: boolean[]) => row.slice(0));
-      const nRows = currentGrid.length;
-      const nCols = currentGrid[0].length;
-      for (let row = 0; row < nRows; row++){
-        for (let col = 0; col < nCols; col++) {   
-          let cell = currentGrid[row][col]; 
-          let neighbors = countAliveNeighbors(currentGrid, row, col);
+      return (
+        currentGrid.map((row: boolean[], rowIndex: number) => {
+          return row.map((cell: boolean, cellIndex: number) => {
+            const neighbors = countAliveNeighbors(currentGrid, rowIndex, cellIndex);
 
-          if(cell && neighbors < 2) newGrid[row][col]=false;
-          else if(cell && (neighbors > 1 && neighbors < 4)) newGrid[row][col]=true;
-          else if(cell && neighbors > 3) newGrid[row][col]=false;
-          else if(!cell && neighbors == 3) newGrid[row][col]=true;
-        }
-      }
-      return newGrid;
-    });
+            if(!cell) {return neighbors === 3;}
+            return neighbors > 1 && neighbors < 4;
+          })
+        })
+      )
+    })
   };
 
   useImperativeHandle(ref, () => ({setPattern, nextGrid}));
@@ -73,11 +54,12 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
   }
   
   return (
-    <div className={styles.grid}
-    style={{
-      gridTemplateColumns: `repeat(${cols}, 15px)`,
-      gridTemplateRows: `repeat(${rows}, 15px)`,
-    }}
+    <div 
+      className={styles.grid}
+      style={{
+        gridTemplateColumns: `repeat(${cols}, 15px)`,
+        gridTemplateRows: `repeat(${rows}, 15px)`,
+      }}
     >
       {grid.map((row: boolean[], rowIndex: number) => (
         row.map((cell: boolean, cellIndex: number) => (
