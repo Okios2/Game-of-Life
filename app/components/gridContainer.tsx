@@ -14,11 +14,13 @@ const GridContainer = () => {
     const resetToQeenBeeGrid = () => gridRef.current?.setPattern(queenBeePattern);
     const resetToRandomGrid  = () => gridRef.current?.setPattern(randomPattern(rows, cols));
     const resetToTumblerGrid = () => gridRef.current?.setPattern(tumblerPattern);
+    const resetToBlank = () => gridRef.current?.setPattern([[]]);
     const setNextGeneration = () => gridRef.current?.nextGrid();
 
     return (
         <div>
             <div>
+                <ActionButton onClick={resetToBlank}  name="Clear Board"/>
                 <ActionButton onClick={resetToQeenBeeGrid}  name="Queen Bee Pattern"/>
                 <ActionButton onClick={resetToRandomGrid}  name="Random Pattern"/>
                 <ActionButton onClick={resetToTumblerGrid}  name="Tumbler Pattern"/>
