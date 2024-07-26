@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useState } from "react";
+import { useRef, useState , useEffect} from "react";
 
 import ActionButton from "./actionbutton";
 import GameBoard, {rows, cols} from "../components/grid";
@@ -9,7 +9,7 @@ import queenBeePattern from "../patterns/queenBee";
 import tumblerPattern from "../patterns/tumbler";
 
 const GridContainer = () => {
-
+    const [isRunning, setIsRunning] = useState(false);
     const gridRef = useRef<{setPattern: (pattern: boolean[][]) => void, nextGrid: () => void}>();
     const resetToQeenBeeGrid = () => gridRef.current?.setPattern(queenBeePattern);
     const resetToRandomGrid  = () => gridRef.current?.setPattern(randomPattern(rows, cols));
@@ -17,22 +17,31 @@ const GridContainer = () => {
     const resetToBlank = () => gridRef.current?.setPattern([[]]);
     const setNextGeneration = () => gridRef.current?.nextGrid();
 
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
-    const [isRunning, setIsRunning] = useState(false);
-
-    const simulation = () => {
-        if (isRunning) {
-            if (intervalRef.current) {
-                clearInterval(intervalRef.current);
-                intervalRef.current = null;
-            }
-        } else {
-            intervalRef.current = setInterval(() => {
-                gridRef.current?.nextGrid();
-            }, 100);
-        }
+    const handleSimulation = () => {
         setIsRunning(!isRunning);
     };
+
+    useEffect(() => {
+        let animationId: number | null = null;
+
+        const runSimulation = () => {
+            setNextGeneration();
+            animationId = requestAnimationFrame(runSimulation);
+        };
+
+        if (isRunning) {
+            requestAnimationFrame(runSimulation);
+        } else if (animationId !== null) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+
+        return () => {
+            if (animationId !== null) {
+                cancelAnimationFrame(animationId);
+            }
+        };
+    }, [isRunning]);
 
     return (
         <div>
@@ -42,7 +51,7 @@ const GridContainer = () => {
                 <ActionButton onClick={resetToTumblerGrid}  name="Tumbler Pattern"/>
                 <ActionButton onClick={resetToRandomGrid}  name="Random Pattern"/>
                 <ActionButton onClick={setNextGeneration}  name="Next Generation"/>
-                <ActionButton onClick={simulation} name={isRunning ? "Stop" : "Start"} />
+                <ActionButton onClick={handleSimulation} name={isRunning ? "Stop" : "Start"} />
             </div>
             <div className={styles.center}>
                 <GameBoard ref={gridRef} />
