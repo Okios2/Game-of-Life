@@ -22,25 +22,29 @@ const GridContainer = () => {
     };
 
     useEffect(() => {
-        let animationId: number | null = null;
-
-        const runSimulation = () => {
-            setNextGeneration();
-            animationId = requestAnimationFrame(runSimulation);
-        };
-
         if (isRunning) {
-            requestAnimationFrame(runSimulation);
-        } else if (animationId !== null) {
-            cancelAnimationFrame(animationId);
-            animationId = null;
-        }
+            let animationId: number;
+            let deltaTime: number;
+            let prevTime = 0;
+            const fps = 30;
+            const interval = 1000 / fps;
 
-        return () => {
-            if (animationId !== null) {
+            const runSimulation = (time: number) => {
+
+                deltaTime = time - prevTime;
+                if(deltaTime >= interval){
+                    setNextGeneration();
+                    prevTime = time - (deltaTime % time);
+                }
+                animationId = requestAnimationFrame(runSimulation);
+            };
+    
+            animationId = requestAnimationFrame(runSimulation);
+    
+            return () => {
                 cancelAnimationFrame(animationId);
-            }
-        };
+            };
+        }
     }, [isRunning]);
 
     return (
