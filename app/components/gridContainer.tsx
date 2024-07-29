@@ -1,5 +1,5 @@
 'use client'
-import { useRef } from "react";
+import {useRef, useState} from "react";
 
 import ActionButton from "./actionbutton";
 import GameBoard, {rows, cols} from "../components/grid";
@@ -9,25 +9,27 @@ import queenBeePattern from "../patterns/queenBee";
 import tumblerPattern from "../patterns/tumbler";
 
 const GridContainer = () => {
-
+    const [isRunning, setIsRunning] = useState(false);
     const gridRef = useRef<{setPattern: (pattern: boolean[][]) => void, nextGrid: () => void}>();
     const resetToQeenBeeGrid = () => gridRef.current?.setPattern(queenBeePattern);
     const resetToRandomGrid  = () => gridRef.current?.setPattern(randomPattern(rows, cols));
     const resetToTumblerGrid = () => gridRef.current?.setPattern(tumblerPattern);
     const resetToBlank = () => gridRef.current?.setPattern([[]]);
     const setNextGeneration = () => gridRef.current?.nextGrid();
+    const handleSimulation = () => setIsRunning(!isRunning);
 
     return (
         <div>
             <div>
-                <ActionButton onClick={resetToBlank}  name="Clear Board"/>
-                <ActionButton onClick={resetToQeenBeeGrid}  name="Queen Bee Pattern"/>
-                <ActionButton onClick={resetToRandomGrid}  name="Random Pattern"/>
-                <ActionButton onClick={resetToTumblerGrid}  name="Tumbler Pattern"/>
-                <ActionButton onClick={setNextGeneration}  name="Next Generation"/>
+                <ActionButton onClick={resetToBlank} name="Clear Board" disabled={isRunning}/>
+                <ActionButton onClick={resetToQeenBeeGrid}  name="Queen Bee Pattern" disabled={isRunning}/>
+                <ActionButton onClick={resetToTumblerGrid}  name="Tumbler Pattern" disabled={isRunning}/>
+                <ActionButton onClick={resetToRandomGrid}  name="Random Pattern" disabled={isRunning}/>
+                <ActionButton onClick={setNextGeneration}  name="Next Generation" disabled={isRunning}/>
+                <ActionButton onClick={handleSimulation} name={isRunning ? "Pause" : "Play"}/>
             </div>
             <div className={styles.center}>
-                <GameBoard ref={gridRef} />
+                <GameBoard isRunning={isRunning} ref={gridRef} />
             </div>
         </div>
     )
