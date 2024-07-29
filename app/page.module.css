@@ -20,6 +20,7 @@
   display: flex;
   min-width: 100%;
   gap: 15px;
+  margin-bottom: 20px;
 }
 
 .gridcontainer {
