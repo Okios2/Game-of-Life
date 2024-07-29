@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  padding: 0 20px;
 }
 
 .description {
@@ -19,17 +19,18 @@
 .center {
   display: flex;
   min-width: 100%;
+  gap: 15px;
 }
 
 .gridcontainer {
   flex: 1 0 auto;
-  padding: 20px;
   margin: auto;
 }
 
 .buttonscontainer {
   display: flex;
   flex-flow: column nowrap;
+  gap: 20px;
 }
 
 @media (orientation: portrait) {
@@ -45,6 +46,5 @@
   .buttonscontainer {
     flex-flow: row wrap;
     justify-content: center;
-    margin-bottom: 20px; 
   }
 }

@@ -1,5 +1,5 @@
 'use client';
-import React, { forwardRef, Ref, useImperativeHandle, useState, useEffect } from "react";
+import React, {forwardRef, Ref, useImperativeHandle, useState, useEffect} from "react";
 
 import Cell from "./cell";
 import styles from "./grid.module.css";
@@ -9,8 +9,8 @@ import countAliveNeighbors from "../utilities/countAliveNeighbors";
 export const rows = 50;
 export const cols = 50;
 const minCellSize = 10;
-const gapWidth = 0.5;
-const minWidth = (cols*minCellSize)+gapWidth*(cols-1)+40; //adding 40 to match padding on the gridContainer
+const gapWidth = 1;
+const minWidth = (cols*minCellSize)+gapWidth*(cols-1);
 
 const GameBoard = forwardRef((props, ref: Ref<any>) => {
   const [grid, setGrid] = useState<boolean[][]>(createArray(rows, cols));

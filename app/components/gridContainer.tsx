@@ -14,7 +14,7 @@ const GridContainer = () => {
     const resetToQeenBeeGrid = () => gridRef.current?.setPattern(queenBeePattern);
     const resetToRandomGrid  = () => gridRef.current?.setPattern(randomPattern(rows, cols));
     const resetToTumblerGrid = () => gridRef.current?.setPattern(tumblerPattern);
-    const resetToBlank = () => gridRef.current?.setPattern([[]])
+    const resetToBlank = () => gridRef.current?.setPattern([[]]);
     const setNextGeneration = () => gridRef.current?.nextGrid();
 
     return (
