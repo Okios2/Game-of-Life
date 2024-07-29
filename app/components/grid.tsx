@@ -1,5 +1,5 @@
 'use client';
-import React, { forwardRef, Ref, useImperativeHandle, useState } from "react";
+import React, { forwardRef, Ref, useImperativeHandle, useState, useEffect } from "react";
 
 import Cell from "./cell";
 import styles from "./grid.module.css";
@@ -8,6 +8,9 @@ import countAliveNeighbors from "../utilities/countAliveNeighbors";
 
 export const rows = 50;
 export const cols = 50;
+const minCellSize = 10;
+const gapWidth = 0.5;
+const minWidth = (cols*minCellSize)+gapWidth*(cols-1)+40; //adding 40 to match padding on the gridContainer
 
 const GameBoard = forwardRef((props, ref: Ref<any>) => {
   const [grid, setGrid] = useState<boolean[][]>(createArray(rows, cols));
@@ -52,13 +55,18 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
       return newGrid;
     });
   }
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--grid-min-width', `${minWidth}px`);
+  }, [minWidth]);
   
   return (
     <div 
       className={styles.grid}
       style={{
-        gridTemplateColumns: `repeat(${cols}, minmax(10px, 1fr))`,
-        gridTemplateRows: `repeat(${rows}, minmax(10px, 1fr))`,
+        gridTemplateColumns: `repeat(${cols}, minmax(${minCellSize}px, 1fr))`,
+        gridTemplateRows: `repeat(${rows}, minmax(${minCellSize}px, 1fr))`,
+        gap: gapWidth,
       }}
     >
       {grid.map((row: boolean[], rowIndex: number) => (
