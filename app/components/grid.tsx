@@ -8,6 +8,9 @@ import countAliveNeighbors from "../utilities/countAliveNeighbors";
 
 export const rows = 50;
 export const cols = 50;
+const minCellSize = 10;
+const gapWidth = 1;
+const minWidth = (cols*minCellSize)+gapWidth*(cols-1);
 const fps = 30;
 const interval = 1000 / fps;
 
@@ -56,6 +59,10 @@ const GameBoard = forwardRef(({isRunning}: {isRunning: boolean}, ref: Ref<any>) 
   }
 
   useEffect(() => {
+    document.documentElement.style.setProperty('--grid-min-width', `${minWidth}px`);
+  }, [minWidth]);
+        
+  useEffect(() => {
     if (isRunning) {
       let animationId: number;
       let prevTime = Number(document.timeline.currentTime);
@@ -84,8 +91,9 @@ const GameBoard = forwardRef(({isRunning}: {isRunning: boolean}, ref: Ref<any>) 
     <div 
       className={styles.grid}
       style={{
-        gridTemplateColumns: `repeat(${cols}, minmax(10px, 1fr))`,
-        gridTemplateRows: `repeat(${rows}, minmax(10px, 1fr))`,
+        gridTemplateColumns: `repeat(${cols}, minmax(${minCellSize}px, 1fr))`,
+        gridTemplateRows: `repeat(${rows}, minmax(${minCellSize}px, 1fr))`,
+        gap: gapWidth,
       }}
     >
       {grid.map((row: boolean[], rowIndex: number) => (

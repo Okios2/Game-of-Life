@@ -19,8 +19,8 @@ const GridContainer = () => {
     const handleSimulation = () => setIsRunning(!isRunning);
 
     return (
-        <div>
-            <div>
+        <div className={styles.center}>
+            <div className={styles.buttonscontainer}>     
                 <ActionButton onClick={resetToBlank} name="Clear Board" disabled={isRunning}/>
                 <ActionButton onClick={resetToQeenBeeGrid}  name="Queen Bee Pattern" disabled={isRunning}/>
                 <ActionButton onClick={resetToTumblerGrid}  name="Tumbler Pattern" disabled={isRunning}/>
@@ -28,7 +28,7 @@ const GridContainer = () => {
                 <ActionButton onClick={setNextGeneration}  name="Next Generation" disabled={isRunning}/>
                 <ActionButton onClick={handleSimulation} name={isRunning ? "Pause" : "Play"}/>
             </div>
-            <div className={styles.center}>
+            <div className={styles.gridcontainer}>
                 <GameBoard isRunning={isRunning} ref={gridRef} />
             </div>
         </div>
