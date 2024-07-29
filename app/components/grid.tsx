@@ -1,5 +1,5 @@
 'use client';
-import React, { forwardRef, Ref, useImperativeHandle, useState, useEffect } from "react";
+import React, {forwardRef, Ref, useImperativeHandle, useState, useEffect} from "react";
 
 import Cell from "./cell";
 import styles from "./grid.module.css";
@@ -9,10 +9,12 @@ import countAliveNeighbors from "../utilities/countAliveNeighbors";
 export const rows = 50;
 export const cols = 50;
 const minCellSize = 10;
-const gapWidth = 0.5;
-const minWidth = (cols*minCellSize)+gapWidth*(cols-1)+40; //adding 40 to match padding on the gridContainer
+const gapWidth = 1;
+const minWidth = (cols*minCellSize)+gapWidth*(cols-1);
+const fps = 30;
+const interval = 1000 / fps;
 
-const GameBoard = forwardRef((props, ref: Ref<any>) => {
+const GameBoard = forwardRef(({isRunning}: {isRunning: boolean}, ref: Ref<any>) => {
   const [grid, setGrid] = useState<boolean[][]>(createArray(rows, cols));
   
   const setPattern = (pattern: boolean[][]) => {
@@ -59,6 +61,31 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
   useEffect(() => {
     document.documentElement.style.setProperty('--grid-min-width', `${minWidth}px`);
   }, [minWidth]);
+        
+  useEffect(() => {
+    if (isRunning) {
+      let animationId: number;
+      let prevTime = Number(document.timeline.currentTime);
+      let elapsedTime = 0;
+
+      const runSimulation = (currentTime: number) => {
+        const deltaTime = currentTime - prevTime;
+        elapsedTime += deltaTime;
+
+        while(elapsedTime >= interval){
+          nextGrid();
+          elapsedTime -= interval;
+        }
+        animationId = requestAnimationFrame(runSimulation);
+        prevTime = currentTime;
+      };
+      animationId = requestAnimationFrame(runSimulation);
+
+      return () => {
+        cancelAnimationFrame(animationId);
+      };
+    }
+  }, [isRunning]);
   
   return (
     <div 
@@ -74,7 +101,7 @@ const GameBoard = forwardRef((props, ref: Ref<any>) => {
           <Cell
             key={`${rowIndex}-${cellIndex}`}
             isAlive={cell}
-            setIsAlive={(newIsAlive) => setIsAlive(newIsAlive, rowIndex, cellIndex)}
+            setIsAlive={(newIsAlive) => !isRunning && setIsAlive(newIsAlive, rowIndex, cellIndex)}
           />
         ))
       ))}

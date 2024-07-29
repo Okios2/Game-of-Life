@@ -3,4 +3,6 @@
     width: auto;
     height: auto;
     aspect-ratio: 1;
+    padding: 1px;
+    background-color: black;
 }
