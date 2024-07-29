@@ -10,6 +10,7 @@ import tumblerPattern from "../patterns/tumbler";
 
 const GridContainer = () => {
     const [isRunning, setIsRunning] = useState(false);
+    const [patternIndex, setPatternIndex] = useState(0);
     const gridRef = useRef<{setPattern: (pattern: boolean[][]) => void, nextGrid: () => void}>();
     const resetToQeenBeeGrid = () => gridRef.current?.setPattern(queenBeePattern);
     const resetToRandomGrid  = () => gridRef.current?.setPattern(randomPattern(rows, cols));
@@ -17,9 +18,17 @@ const GridContainer = () => {
     const resetToBlank = () => gridRef.current?.setPattern([[]]);
     const setNextGeneration = () => gridRef.current?.nextGrid();
     const handleSimulation = () => setIsRunning(!isRunning);
+    const patterns = [resetToQeenBeeGrid, resetToTumblerGrid, resetToRandomGrid];
+    
+    const handleEnterPressed = (e: React.KeyboardEvent) => {
+        if(e.key === "Enter" && !isRunning){
+            patterns[patternIndex]();
+            setPatternIndex((patternIndex+1)%patterns.length);
+        }
+    };
 
     return (
-        <div className={styles.center}>
+        <div className={styles.center} onKeyDown={handleEnterPressed} tabIndex={0}>
             <div className={styles.buttonscontainer}>     
                 <ActionButton onClick={resetToBlank} name="Clear Board" disabled={isRunning}/>
                 <ActionButton onClick={resetToQeenBeeGrid}  name="Queen Bee Pattern" disabled={isRunning}/>
@@ -27,6 +36,7 @@ const GridContainer = () => {
                 <ActionButton onClick={resetToRandomGrid}  name="Random Pattern" disabled={isRunning}/>
                 <ActionButton onClick={setNextGeneration}  name="Next Generation" disabled={isRunning}/>
                 <ActionButton onClick={handleSimulation} name={isRunning ? "Pause" : "Play"}/>
+                <div onKeyDown={handleEnterPressed}/>
             </div>
             <div className={styles.gridcontainer}>
                 <GameBoard isRunning={isRunning} ref={gridRef} />
