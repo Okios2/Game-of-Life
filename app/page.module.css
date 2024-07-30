@@ -34,6 +34,10 @@
   gap: 20px;
 }
 
+.imputmargin {
+  margin: 0 10px;
+}
+
 @media (orientation: portrait) {
   .center {
     flex-direction: column;

@@ -1,8 +1,10 @@
-import styles from "./cell.module.css";
-
-const Cell = ({ isAlive, setIsAlive }: { isAlive: boolean, setIsAlive: (arg: boolean) => void }) => {
+const Cell = ({ isAlive, setIsAlive, rectProps }: { isAlive: boolean, setIsAlive: (arg: boolean) => void, rectProps: {}}) => {
   return (
-    <div className={`${styles.cell} ${isAlive ? styles.alive : styles.dead}`} onClick={() => {setIsAlive(!isAlive)}} />
+    <rect 
+      onClick={() => {setIsAlive(!isAlive)}} 
+      {...rectProps}
+      fill={isAlive ? "red" : "white"}
+    />
   );
 };
 
