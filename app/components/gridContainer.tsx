@@ -22,6 +22,9 @@ const GridContainer = () => {
     
     const handleEnterPressed = (e: React.KeyboardEvent) => {
         if(e.key === "Enter" && !isRunning){
+            const active = document.activeElement as HTMLElement;
+            const excludedTags = ["BUTTON", "INPUT", "SELECT"];
+            if (excludedTags.includes(active.tagName)) {return;}
             patterns[patternIndex]();
             setPatternIndex((patternIndex+1)%patterns.length);
         }
