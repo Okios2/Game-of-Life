@@ -11,11 +11,10 @@ export const cols = 50;
 const minCellSize = 10;
 const gapWidth = 1;
 const minWidth = (cols*minCellSize)+gapWidth*(cols-1);
-const fps = 30;
-const interval = 1000 / fps;
 
-const GameBoard = forwardRef(({isRunning}: {isRunning: boolean}, ref: Ref<any>) => {
+const GameBoard = forwardRef(({isRunning, fps}: {isRunning: boolean, fps: number}, ref: Ref<any>) => {
   const [grid, setGrid] = useState<boolean[][]>(createArray(rows, cols));
+  const interval = 1000 / fps;
   
   const setPattern = (pattern: boolean[][]) => {
     const newGrid = createArray(rows, cols);
