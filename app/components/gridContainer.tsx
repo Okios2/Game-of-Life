@@ -18,14 +18,18 @@ const GridContainer = () => {
     const resetToBlank = () => gridRef.current?.setPattern([[]]);
     const setNextGeneration = () => gridRef.current?.nextGrid();
     const handleSimulation = () => setIsRunning(!isRunning);
-    const patterns = [resetToQeenBeeGrid, resetToTumblerGrid, resetToRandomGrid];
+    const patterns = [
+        {reset: resetToQeenBeeGrid, name: "Queen Bee Pattern"},
+        {reset: resetToTumblerGrid, name: "Tumbler Pattern"},
+        {reset: resetToRandomGrid, name: "Random Pattern"}
+    ];
     
     const handleEnterPressed = (e: React.KeyboardEvent) => {
         if(e.key === "Enter" && !isRunning){
             const active = document.activeElement as HTMLElement;
             const excludedTags = ["BUTTON", "INPUT", "SELECT"];
             if (excludedTags.includes(active.tagName)) {return;}
-            patterns[patternIndex]();
+            patterns[patternIndex].reset();
             setPatternIndex((patternIndex+1)%patterns.length);
         }
     };
@@ -34,12 +38,16 @@ const GridContainer = () => {
         <div className={styles.center} onKeyDown={handleEnterPressed} tabIndex={0}>
             <div className={styles.buttonscontainer}>     
                 <ActionButton onClick={resetToBlank} name="Clear Board" disabled={isRunning}/>
-                <ActionButton onClick={resetToQeenBeeGrid}  name="Queen Bee Pattern" disabled={isRunning}/>
-                <ActionButton onClick={resetToTumblerGrid}  name="Tumbler Pattern" disabled={isRunning}/>
-                <ActionButton onClick={resetToRandomGrid}  name="Random Pattern" disabled={isRunning}/>
+                {patterns.map((pattern) => (
+                    <ActionButton
+                        key={pattern.name}
+                        onClick={pattern.reset}
+                        name={pattern.name}
+                        disabled={isRunning}
+                    />
+                ))}
                 <ActionButton onClick={setNextGeneration}  name="Next Generation" disabled={isRunning}/>
                 <ActionButton onClick={handleSimulation} name={isRunning ? "Pause" : "Play"}/>
-                <div onKeyDown={handleEnterPressed}/>
             </div>
             <div className={styles.gridcontainer}>
                 <GameBoard isRunning={isRunning} ref={gridRef} />
