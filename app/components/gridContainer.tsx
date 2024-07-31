@@ -11,6 +11,7 @@ import tumblerPattern from "../patterns/tumbler";
 const GridContainer = () => {
     const [isRunning, setIsRunning] = useState(false);
     const [patternIndex, setPatternIndex] = useState(0);
+    const [fps, setFps] = useState(30);
     const gridRef = useRef<{setPattern: (pattern: boolean[][]) => void, nextGrid: () => void}>();
     const resetToQeenBeeGrid = () => gridRef.current?.setPattern(queenBeePattern);
     const resetToRandomGrid  = () => gridRef.current?.setPattern(randomPattern(rows, cols));
@@ -48,9 +49,20 @@ const GridContainer = () => {
                 ))}
                 <ActionButton onClick={setNextGeneration}  name="Next Generation" disabled={isRunning}/>
                 <ActionButton onClick={handleSimulation} name={isRunning ? "Pause" : "Play"}/>
+                <input 
+                    type="range"
+                    id="speed-animation"
+                    name="speed-animation"
+                    value={fps}
+                    onChange={(e) => {setFps(Number(e.target.value))}}
+                    min={1}
+                    max={60}
+                    disabled={isRunning}
+                />
+                <label htmlFor="speed-animation">Animation Speed</label>
             </div>
             <div className={styles.gridcontainer}>
-                <GameBoard isRunning={isRunning} ref={gridRef} />
+                <GameBoard isRunning={isRunning} fps={fps} ref={gridRef} />
             </div>
         </div>
     )
