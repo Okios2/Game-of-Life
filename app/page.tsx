@@ -1,5 +1,6 @@
 import GridContainer from "./components/gridContainer";
 import styles from "./page.module.css";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -8,7 +9,8 @@ export default function Home() {
       <div className={styles.description}>
           <h1>GAME OF LIFE</h1>
       </div>
-      <GridContainer/>  
+      <GridContainer/>
+      <Link href="/about" className={styles.link}>About Page</Link>
     </main>
   );
 }

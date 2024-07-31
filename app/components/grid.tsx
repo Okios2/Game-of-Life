@@ -2,18 +2,16 @@
 import React, {forwardRef, Ref, useImperativeHandle, useState, useEffect} from "react";
 
 import Cell from "./cell";
-import styles from "./grid.module.css";
 import createArray from "../utilities/array";
 import countAliveNeighbors from "../utilities/countAliveNeighbors";
 
-export const rows = 50;
-export const cols = 50;
 const minCellSize = 10;
 const gapWidth = 1;
-const minWidth = (cols*minCellSize)+gapWidth*(cols-1);
 
-const GameBoard = forwardRef(({isRunning, fps}: {isRunning: boolean, fps: number}, ref: Ref<any>) => {
+
+const GameBoard = forwardRef(({isRunning, rows, cols, fps}: {isRunning: boolean, rows: number, cols: number, fps: number}, ref: Ref<any>) => {
   const [grid, setGrid] = useState<boolean[][]>(createArray(rows, cols));
+  const minWidth = (cols*minCellSize)+gapWidth*(cols-1);
   const interval = 1000 / fps;
   
   const setPattern = (pattern: boolean[][]) => {
@@ -56,10 +54,6 @@ const GameBoard = forwardRef(({isRunning, fps}: {isRunning: boolean, fps: number
       return newGrid;
     });
   }
-
-  useEffect(() => {
-    document.documentElement.style.setProperty('--grid-min-width', `${minWidth}px`);
-  }, [minWidth]);
         
   useEffect(() => {
     if (isRunning) {
@@ -87,13 +81,9 @@ const GameBoard = forwardRef(({isRunning, fps}: {isRunning: boolean, fps: number
   }, [isRunning, interval]);
   
   return (
-    <div 
-      className={styles.grid}
-      style={{
-        gridTemplateColumns: `repeat(${cols}, minmax(${minCellSize}px, 1fr))`,
-        gridTemplateRows: `repeat(${rows}, minmax(${minCellSize}px, 1fr))`,
-        gap: gapWidth,
-      }}
+    <svg 
+      viewBox={`0 0 ${cols} ${rows}`}
+      style={{minWidth}}
     >
       {grid.map((row: boolean[], rowIndex: number) => (
         row.map((cell: boolean, cellIndex: number) => (
@@ -101,10 +91,11 @@ const GameBoard = forwardRef(({isRunning, fps}: {isRunning: boolean, fps: number
             key={`${rowIndex}-${cellIndex}`}
             isAlive={cell}
             setIsAlive={(newIsAlive) => !isRunning && setIsAlive(newIsAlive, rowIndex, cellIndex)}
+            rectProps={{x: cellIndex, y: rowIndex, width: 1, height: 1, stroke: "black", strokeWidth: 0.05}}
           />
         ))
       ))}
-    </div>
+    </svg>
   );
 });
   

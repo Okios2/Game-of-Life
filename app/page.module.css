@@ -34,6 +34,31 @@
   gap: 20px;
 }
 
+.section {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.section h2 {
+  margin-top: 0;
+}
+
+.section ul {
+  padding-left: 20px;
+}
+
+.section li {
+  margin-bottom: 10px;
+}
+
+.link {
+  display: inline-block;
+  margin: 20px 0;
+}
+
 @media (orientation: portrait) {
   .center {
     flex-direction: column;
