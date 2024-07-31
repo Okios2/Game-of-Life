@@ -8,6 +8,7 @@ import countAliveNeighbors from "../utilities/countAliveNeighbors";
 const minCellSize = 10;
 const gapWidth = 1;
 
+
 const GameBoard = forwardRef(({isRunning, rows, cols, fps}: {isRunning: boolean, rows: number, cols: number, fps: number}, ref: Ref<any>) => {
   const [grid, setGrid] = useState<boolean[][]>(createArray(rows, cols));
   const minWidth = (cols*minCellSize)+gapWidth*(cols-1);

@@ -12,8 +12,8 @@ const GridContainer = () => {
     const [isRunning, setIsRunning] = useState(false);
     const [rows, setRows] = useState(50);
     const [cols, setCols] = useState(50);
-    const [patternIndex, setPatternIndex] = useState(0);
     const [fps, setFps] = useState(30);
+    const [patternIndex, setPatternIndex] = useState(0);
     const gridRef = useRef<{setPattern: (pattern: boolean[][]) => void, nextGrid: () => void}>();
     const resetToQeenBeeGrid = () => gridRef.current?.setPattern(queenBeePattern);
     const resetToRandomGrid  = () => gridRef.current?.setPattern(randomPattern(rows, cols));
