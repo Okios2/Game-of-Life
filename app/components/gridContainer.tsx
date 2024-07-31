@@ -57,7 +57,6 @@ const GridContainer = () => {
                     onChange={(e) => {setFps(Number(e.target.value))}}
                     min={1}
                     max={60}
-                    disabled={isRunning}
                 />
                 <label htmlFor="speed-animation">Animation Speed</label>
             </div>
