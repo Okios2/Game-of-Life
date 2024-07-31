@@ -12,6 +12,8 @@ const GridContainer = () => {
     const [isRunning, setIsRunning] = useState(false);
     const [rows, setRows] = useState(50);
     const [cols, setCols] = useState(50);
+    const [patternIndex, setPatternIndex] = useState(0);
+    const [fps, setFps] = useState(30);
     const gridRef = useRef<{setPattern: (pattern: boolean[][]) => void, nextGrid: () => void}>();
     const resetToQeenBeeGrid = () => gridRef.current?.setPattern(queenBeePattern);
     const resetToRandomGrid  = () => gridRef.current?.setPattern(randomPattern(rows, cols));
@@ -19,48 +21,77 @@ const GridContainer = () => {
     const resetToBlank = () => gridRef.current?.setPattern([[]]);
     const setNextGeneration = () => gridRef.current?.nextGrid();
     const handleSimulation = () => setIsRunning(!isRunning);
+    const patterns = [
+        {reset: resetToQeenBeeGrid, name: "Queen Bee Pattern"},
+        {reset: resetToTumblerGrid, name: "Tumbler Pattern"},
+        {reset: resetToRandomGrid, name: "Random Pattern"}
+    ];
+    
+    const handleEnterPressed = (e: React.KeyboardEvent) => {
+        if(e.key === "Enter" && !isRunning){
+            const active = document.activeElement as HTMLElement;
+            const excludedTags = ["BUTTON", "INPUT", "SELECT"];
+            if (excludedTags.includes(active.tagName)) {return;}
+            patterns[patternIndex].reset();
+            setPatternIndex((patternIndex+1)%patterns.length);
+        }
+    };
 
     const handleGridSizeChange = (e: ChangeEvent<HTMLInputElement>, setter: (value: SetStateAction<number>) => void) => {
-        const value = Number(e.target.value);
-        if(value <= 50) {
-            setter(value);
-        }
+        const {min, max, value} = e.target;
+        setter(Math.min(Number(max), Math.max(Number(min), Number(value))));
     }
 
     return (
-        <div className={styles.center}>
+        <div className={styles.center} onKeyDown={handleEnterPressed} tabIndex={0}>
             <div className={styles.buttonscontainer}>   
-                <label>
-                    Number of rows: 
-                    <input
-                        className={styles.imputmargin}
-                        type="number"
-                        value={rows}
-                        onChange={(e) => handleGridSizeChange(e, setRows)}
-                        min={1}
+                <label htmlFor="rowsInput" >Number of rows:</label>
+                <input
+                    id="rowsInput"
+                    name="rowsInput"
+                    type="number"
+                    value={rows}
+                    onChange={(e) => handleGridSizeChange(e, setRows)}
+                    min={1}
+                    max={50}
+                    disabled={isRunning}
+                />
+                <label htmlFor="colsInput" >Number of colums:</label>
+                <input
+                    id="colsInput"
+                    name="colsInput"
+                    type="number"
+                    value={cols}
+                    onChange={(e) => handleGridSizeChange(e, setCols)}
+                    min={1}   
+                    max={50}
+                    disabled={isRunning}                    
+                />
+                <ActionButton onClick={resetToBlank} name="Clear Board" disabled={isRunning}/>
+                {patterns.map((pattern) => (
+                    <ActionButton
+                        key={pattern.name}
+                        onClick={pattern.reset}
+                        name={pattern.name}
                         disabled={isRunning}
                     />
-                </label>
-                <label>
-                    Nukmber of colums: 
-                    <input
-                        className={styles.imputmargin}
-                        type="number"
-                        value={cols}
-                        onChange={(e) => handleGridSizeChange(e, setCols)}
-                        min={1}   
-                        disabled={isRunning}                    
-                    />
-                </label>
-                <ActionButton onClick={resetToBlank} name="Clear Board" disabled={isRunning}/>
-                <ActionButton onClick={resetToQeenBeeGrid}  name="Queen Bee Pattern" disabled={isRunning}/>
-                <ActionButton onClick={resetToTumblerGrid}  name="Tumbler Pattern" disabled={isRunning}/>
-                <ActionButton onClick={resetToRandomGrid}  name="Random Pattern" disabled={isRunning}/>
+                ))}
                 <ActionButton onClick={setNextGeneration}  name="Next Generation" disabled={isRunning}/>
                 <ActionButton onClick={handleSimulation} name={isRunning ? "Pause" : "Play"}/>
+                <input 
+                    type="range"
+                    id="speed-animation"
+                    name="speed-animation"
+                    value={fps}
+                    onChange={(e) => {setFps(Number(e.target.value))}}
+                    min={1}
+                    max={60}
+                    disabled={isRunning}
+                />
+                <label htmlFor="speed-animation">Animation Speed</label>
             </div>
             <div className={styles.gridcontainer}>
-                <GameBoard key={`${rows}x${cols}`} isRunning={isRunning} rows={rows} cols={cols} ref={gridRef} />
+                <GameBoard key={`${rows}x${cols}`} isRunning={isRunning} rows={rows} cols={cols} ref={gridRef} fps={fps}/>
             </div>
         </div>
     )

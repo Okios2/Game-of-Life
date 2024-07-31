@@ -7,13 +7,12 @@ import countAliveNeighbors from "../utilities/countAliveNeighbors";
 
 const minCellSize = 10;
 const gapWidth = 1;
-const fps = 30;
-const interval = 1000 / fps;
 
-const GameBoard = forwardRef(({isRunning, rows, cols}: {isRunning: boolean, rows: number, cols: number}, ref: Ref<any>) => {
+const GameBoard = forwardRef(({isRunning, rows, cols, fps}: {isRunning: boolean, rows: number, cols: number, fps: number}, ref: Ref<any>) => {
   const [grid, setGrid] = useState<boolean[][]>(createArray(rows, cols));
   const minWidth = (cols*minCellSize)+gapWidth*(cols-1);
-
+  const interval = 1000 / fps;
+  
   const setPattern = (pattern: boolean[][]) => {
     const newGrid = createArray(rows, cols);
     const pRows = pattern.length;
