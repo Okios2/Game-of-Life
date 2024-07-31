@@ -84,7 +84,7 @@ const GameBoard = forwardRef(({isRunning, fps}: {isRunning: boolean, fps: number
         cancelAnimationFrame(animationId);
       };
     }
-  }, [isRunning]);
+  }, [isRunning, interval]);
   
   return (
     <div 
