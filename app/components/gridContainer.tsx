@@ -52,8 +52,8 @@ const GridContainer = () => {
                     type="number"
                     value={rows}
                     onChange={(e) => handleGridSizeChange(e, setRows)}
-                    min={1}
-                    max={50}
+                    min={Math.max(tumblerPattern.length, queenBeePattern.length)}
+                    max={110}
                     disabled={isRunning}
                 />
                 <label htmlFor="colsInput" >Number of colums:</label>
@@ -63,9 +63,8 @@ const GridContainer = () => {
                     type="number"
                     value={cols}
                     onChange={(e) => handleGridSizeChange(e, setCols)}
-                    min={1}   
-                    max={50}
-                    disabled={isRunning}                    
+                    min={Math.max(tumblerPattern[0].length, queenBeePattern[0].length)}   
+                    max={110}                  
                 />
                 <ActionButton onClick={resetToBlank} name="Clear Board" disabled={isRunning}/>
                 {patterns.map((pattern) => (
