@@ -1,8 +1,8 @@
 import styles from "./actionButton.module.css"
 
-const ActionButton = ({onClick, name, disabled = false}: {onClick: () => void, name: string, disabled?: boolean}) => {
+const ActionButton = ({onClick, name, disabled = false, index}: {onClick: (index: number) => void, name: string, disabled?: boolean, index: number}) => {
     return (
-        <button onClick={onClick} className={styles.actionbutton} disabled={disabled}>{name}</button>
+        <button onClick={() => onClick(index)} className={styles.actionbutton} disabled={disabled}>{name}</button>
     );
 }
 
