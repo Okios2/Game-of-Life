@@ -13,7 +13,6 @@ const GridContainer = () => {
     const [rows, setRows] = useState(50);
     const [cols, setCols] = useState(50);
     const [fps, setFps] = useState(30);
-    const [patternIndex, setPatternIndex] = useState(0);
     const gridRef = useRef<{setPattern: (pattern: boolean[][]) => void, nextGrid: () => void}>();
     const resetToQeenBeeGrid = () => gridRef.current?.setPattern(queenBeePattern);
     const resetToRandomGrid  = () => gridRef.current?.setPattern(randomPattern(rows, cols));
@@ -27,15 +26,17 @@ const GridContainer = () => {
         {reset: resetToRandomGrid, name: "Random Pattern"}
     ];
     
-    const handleEnterPressed = (e: React.KeyboardEvent) => {
-        if(e.key === "Enter" && !isRunning){
-            const active = document.activeElement as HTMLElement;
-            const excludedTags = ["BUTTON", "INPUT", "SELECT"];
-            if (excludedTags.includes(active.tagName)) {return;}
-            patterns[patternIndex].reset();
-            setPatternIndex((patternIndex+1)%patterns.length);
+    const handleKeyPressed = (e: React.KeyboardEvent) => ["Enter", " ", "Escape"].includes(e.key) && (() =>{
+        e.preventDefault();
+        if(e.key === " "){
+            handleSimulation();
+        } else if(e.key === "Escape"){
+            resetToBlank();
+            setIsRunning(false);
+        } else if (!isRunning){
+            setNextGeneration();
         }
-    };
+    })();
 
     const handleGridSizeChange = (e: ChangeEvent<HTMLInputElement>, setter: (value: SetStateAction<number>) => void) => {
         const {min, max, value} = e.target;
@@ -43,7 +44,7 @@ const GridContainer = () => {
     }
 
     return (
-        <div className={styles.center} onKeyDown={handleEnterPressed} tabIndex={0}>
+        <div className={styles.center} onKeyDown={handleKeyPressed} tabIndex={0}>
             <div className={styles.buttonscontainer}>   
                 <label htmlFor="rowsInput" >Number of rows:</label>
                 <input
