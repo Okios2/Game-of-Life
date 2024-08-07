@@ -18,6 +18,11 @@ html, body {
   margin-left: 10px;
 }
 
+.nav {
+  display: flex;
+  align-items: center;
+}
+
 .nav a {
   margin: 0 1rem;
   color: white;
@@ -33,6 +38,6 @@ html, body {
 
 @media (orientation: portrait){
   body{
-    padding: 0 20px;
+    padding: 0 2px;
   }
 }
