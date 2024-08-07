@@ -22,7 +22,6 @@ export default function RootLayout({
           <h1>Conway's Game of Life</h1>
           <nav className="nav">
             <Link href="/">Home</Link>
-            <Link href="/about">About</Link>
           </nav>
         </header>
         {children}
