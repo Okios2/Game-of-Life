@@ -5,9 +5,6 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-          <h1>GAME OF LIFE</h1>
-      </div>
       <GridContainer/>  
     </main>
   );
