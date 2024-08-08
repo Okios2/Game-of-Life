@@ -63,13 +63,16 @@ const GridContainer = () => {
 
     return (
         <div className={styles.center} onKeyDown={handleKeyPressed} tabIndex={0}>
-            <div className={styles.buttonscontainer}>   
-                <IconButton color="inherit" onClick={reset} disabled={isRunning}><StopIcon/></IconButton>
-                <IconButton color="inherit" onClick={setNextGeneration} disabled={isRunning}><SkipNextIcon/></IconButton>
-                <IconButton color="inherit" onClick={handleSimulation}>
-                    {isRunning ? <PauseIcon/> : <PlayArrowIcon/>}
-                </IconButton>
-                <div className={styles.iconbutton}>
+            <div className={styles.buttonscontainer}>
+                <div></div>
+                <div>
+                    <IconButton color="inherit" onClick={reset} disabled={isRunning}><StopIcon/></IconButton>
+                    <IconButton color="inherit" onClick={setNextGeneration} disabled={isRunning}><SkipNextIcon/></IconButton>
+                    <IconButton color="inherit" onClick={handleSimulation}>
+                        {isRunning ? <PauseIcon/> : <PlayArrowIcon/>}
+                    </IconButton>
+                </div>
+                <div>
                     <IconButton color="inherit" onClick={toggleDrawer}>
                         <SettingsIcon></SettingsIcon>
                     </IconButton>
