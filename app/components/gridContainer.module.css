@@ -25,7 +25,19 @@
   display: flex;
   flex-flow: row nowrap;
   gap: 20px;
-  justify-content: center;
+  justify-content: space-between;
+}
+
+.buttonscontainer > div{
+  flex: 1 1 0;
+  text-align: center;
+}
+
+.buttonscontainer > div:first-child{
+  text-align: left;
+}
+.buttonscontainer > div:last-child{
+  text-align: right;
 }
 
 .drawer {
@@ -33,12 +45,6 @@
   background-color: #333;
   padding: 20px;
   color: white
-}
-
-.iconbutton {
-  position: absolute;
-  top: 85px;
-  right: 0.5%;
 }
 
 .drawer .radiolabel {
