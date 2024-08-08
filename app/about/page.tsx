@@ -4,7 +4,7 @@ export default function About() {
 	return (
 		<div>
 			<header className={styles.description}>
-				<h1>About Conwey's Game of Life</h1>
+				<h1>About Conway's Game of Life</h1>
 			</header>
 			<section className={styles.section}>
 				<h2>Introduction</h2>
