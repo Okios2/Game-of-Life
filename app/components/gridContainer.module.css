@@ -12,13 +12,17 @@
   display: flex;
   min-width: 100%;
   gap: 15px;
-  margin-bottom: 20px;
   flex-flow: column;
+  flex: 1 1 auto;
+  padding: 4px 0;
 }
 
 .gridcontainer {
   flex: 1 0 auto;
-  margin: auto;
+  margin: 0;
+  text-align: center;
+  container-type: size;
+  overflow: auto;
 }
 
 .buttonscontainer {
@@ -54,7 +58,6 @@
 @media (orientation: portrait) {
   .center {
     flex-direction: column;
-    align-items: center;
   }
 
   .gridcontainer {
