@@ -6,13 +6,12 @@ import createArray from "../utilities/array";
 import countAliveNeighbors from "../utilities/countAliveNeighbors";
 
 const minCellSize = 10;
-const maxCellSize = 50;
 const gapWidth = 1;
 
 const GameBoard = forwardRef(({isRunning, rows, cols, fps}: {isRunning: boolean, rows: number, cols: number, fps: number}, ref: Ref<any>) => {
   const [grid, setGrid] = useState<boolean[][]>(createArray(rows, cols));
   const minWidth = (cols*minCellSize)+gapWidth*(cols-1);
-  const maxHeight = (rows*maxCellSize)+gapWidth*(rows-1);
+  const minHeight = (rows*minCellSize)+gapWidth*(rows-1);
   const interval = 1000 / fps;
 
   const setPattern = (pattern: boolean[][]) => {
@@ -84,7 +83,7 @@ const GameBoard = forwardRef(({isRunning, rows, cols, fps}: {isRunning: boolean,
   return (
     <svg 
       viewBox={`0 0 ${cols} ${rows}`}
-      style={{minWidth, maxHeight}}
+      style={{width: `max(98cqmin,${minWidth}px)`, height: `max(98cqmin,${minHeight}px)`}}
     >
       {grid.map((row: boolean[], rowIndex: number) => (
         row.map((cell: boolean, cellIndex: number) => (
